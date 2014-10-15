@@ -1,0 +1,18 @@
+@niagaraIcon="module://icons/x16/control/math/add.png"
+class Add extends Component {
+** input property, persisted as config property.
+    @summary
+    @config
+    property float in1;
+
+    @summary
+    @config
+    property float in2;
+
+    @readonly
+    property float out;
+
+    virtual override void execute() {
+        out = in1 + in2;
+    }
+}

@@ -1,0 +1,11 @@
+<sedonaKit 
+name = "SmartIO"
+vendor = "Tridium"
+description = "Basic function library"
+version = "2.17"
+>
+  <depend on="sys 1.0"/>
+  <source dir="src" />
+</sedonaKit>
+
+

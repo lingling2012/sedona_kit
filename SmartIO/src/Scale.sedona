@@ -1,0 +1,22 @@
+@niagaraIcon="module://icons/x16/control/control.png"
+class Scale extends Component {
+
+property float x;
+
+@summary
+@config
+property float b;
+
+@summary
+@config
+property float a = 1.0;
+
+@readonly
+property float y;
+
+virtual override void execute() {
+if (a > 0.0)
+    y = a * (x + b);
+}
+
+}

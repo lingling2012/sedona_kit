@@ -1,0 +1,45 @@
+class BI extends Component {
+	@config
+	@asStr
+	property Buf(16) ip = "127.0.0.1";
+
+	@config
+	property float time = 2.0;
+
+	@summary
+	@config
+	property int key;
+
+	@readonly
+	property bool out;
+
+	internal inline BIPoint p;
+
+	virtual override void execute() {
+		long now = Sys.ticks();
+		if (!lastRun) {
+			deadline = now + (long)time * 1sec;
+			lastRun = true;	
+			if (key > 100000) {
+				if (!connected) {
+					int r = Action.connect(ip.toStr());
+					connected = (r > 0) ? true : false;
+				} else {
+					Action.biRead(ip.toStr(), key, p);
+					if (p.presentvalue > 0) {
+						out = true;
+					} else {
+						out = false;
+					}
+				}
+			}			
+		} else {
+			if (now > deadline) {
+				lastRun = false;
+			}			
+		}
+	}
+	private bool lastRun  = false;
+	private long deadline = 0L;
+	private bool connected = false;		
+}

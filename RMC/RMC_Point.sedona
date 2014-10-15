@@ -1,0 +1,122 @@
+class AIPoint {
+	float offset;
+	float presentvalue;
+}
+
+class BIPoint {
+	int presentvalue;
+}
+
+class BOPoint {
+	int in1;
+	int in2;
+	int in3;
+	int in4;
+	int in5;
+	int in6;
+	int in7;
+	int in8;
+	int in9;
+	int in10;
+	int in11;
+	int in12;
+	int in13;
+	int in14;
+	int in15;
+	int in16;
+	int presentvalue;
+}
+
+class AOPoint {
+	float in1;
+	float in2;
+	float in3;
+	float in4;
+	float in5;
+	float in6;
+	float in7;
+	float in8;
+	float in9;
+	float in10;
+	float in11;
+	float in12;
+	float in13;
+	float in14;
+	float in15;
+	float in16;
+	float presentvalue;
+}
+
+class AVPoint {
+	float in1;
+	float in2;
+	float in3;
+	float in4;
+	float in5;
+	float in6;
+	float in7;
+	float in8;
+	float in9;
+	float in10;
+	float in11;
+	float in12;
+	float in13;
+	float in14;
+	float in15;
+	float in16;
+	float presentvalue;
+}
+
+class BVPoint {
+	int in1;
+	int in2;
+	int in3;
+	int in4;
+	int in5;
+	int in6;
+	int in7;
+	int in8;
+	int in9;
+	int in10;
+	int in11;
+	int in12;
+	int in13;
+	int in14;
+	int in15;
+	int in16;
+	int presentvalue;
+}
+
+
+class Action {
+	static native int connect(Str ip);
+	static native int aiRead(Str ip, int key, AIPoint aipoint);
+
+	static native int aoRead(Str ip, int key, AOPoint aopoint);	
+	static native int aoWrite(Str ip, int key, float in1, float in2, float in3,
+							  float in4, float in5, float in6, float in7,
+							  float in8, float in9, float in10, float in11,
+							  float in12, float in13, float in14, float in15, float in16);
+
+	static native int boRead(Str ip, int key, BOPoint bopoint);							  
+	static native int boWrite(Str ip, int key, bool in1, bool in2, bool in3, bool in4, bool in5,
+							  bool in6, bool in7, bool in8, bool in9, bool in10, bool in11,
+							  bool in12, bool in13, bool in14, bool in15, bool in16);
+
+	static native int bvRead(Str ip, int key, BVPoint bvpoint);
+	static native int bvWritePresentValue(Str ip, int key, bool presentValue);
+	static native int bvWrite(Str ip, int key, bool in1, bool in2, bool in3, bool in4, bool in5,
+							  bool in6, bool in7, bool in8, bool in9, bool in10, bool in11,
+							  bool in12, bool in13, bool in14, bool in15, bool in16);
+
+	static native int avRead(Str ip, int key, AVPoint avpoint);
+	static native int avWritePresentValue(Str ip, int key, float presentValue);
+	static native int avWrite(Str ip, int key, float in1, float in2, float in3,
+							  float in4, float in5, float in6, float in7,
+							  float in8, float in9, float in10, float in11,
+							  float in12, float in13, float in14, float in15, float in16);
+
+
+	static native int aiWrite(Str ip, int key, float offset);
+	static native int biRead(Str ip, int key, BIPoint bipoint);		
+}

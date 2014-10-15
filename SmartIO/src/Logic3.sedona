@@ -1,0 +1,48 @@
+@niagaraIcon="module://icons/x16/control/util/switch.png"
+class Logic3 extends Component {
+	@summary
+	@config
+    @allowNull=false
+    @trueText="On" @falseText="Off"		
+	property bool a = false;
+
+	@config
+    @allowNull=false
+    @trueText="On" @falseText="Off"		
+	property bool aconfig = false;
+
+	@summary
+	@config
+    @allowNull=false
+    @trueText="On" @falseText="Off"		
+	property bool b = false;
+
+	@config
+    @allowNull=false
+    @trueText="On" @falseText="Off"		
+	property bool bconfig = false;
+
+	@summary
+	@config
+    @allowNull=false
+    @trueText="On" @falseText="Off"		
+	property bool c = false;
+
+	@config
+    @allowNull=false
+    @trueText="On" @falseText="Off"		
+	property bool cconfig = false;
+
+	@readonly
+    @allowNull=false
+    @trueText="On" @falseText="Off"		
+	property bool out = true;
+
+	virtual override void execute() {
+		if ( (a == aconfig) && (b == bconfig) && (c == cconfig) ) {
+			out = true;
+		} else {
+			out = false;
+		}
+	}
+}

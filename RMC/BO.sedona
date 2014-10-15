@@ -1,0 +1,277 @@
+class BO extends Component {
+	@config
+	@asStr
+	property Buf(16) ip = "127.0.0.1";
+
+	@config
+	property float time = 2.0;
+
+	@summary
+	@config
+	property int key;
+
+	@config
+	property bool in1 = null;
+
+	@config
+	property bool in2 = null;
+
+	@config
+	property bool in3 = null;
+
+	@config
+	property bool in4 = null;
+
+	@config
+	property bool in5 = null;
+
+	@config
+	property bool in6 = null;
+
+	@config
+	property bool in7 = null;
+
+	@config
+	property bool in8 = null;
+
+	@config
+	property bool in9 = null;
+
+	@summary
+	@config
+	property bool in10 = null;
+
+	@config
+	property bool in11 = null;
+
+	@config
+	property bool in12 = null;
+
+	@config
+	property bool in13 = null;
+
+	@config
+	property bool in14 = null;
+
+	@config
+	property bool in15 = null;
+
+	@config
+	property bool in16 = null;
+
+	@summary
+	@config
+	property bool def;
+
+	@readonly
+	property bool out;
+
+	internal inline BOPoint p;
+
+	virtual override void changed(Slot slot) {
+		super.changed(slot);
+
+		if (readingData == false) {
+			readingData = true;
+			if (slot.name.equals("ip")) {
+				connected = false;
+			}
+
+			if ((slot.name.equals("in1") ||
+				 slot.name.equals("in2") ||
+				 slot.name.equals("in3") ||
+				 slot.name.equals("in4") ||
+				 slot.name.equals("in5") ||
+				 slot.name.equals("in6") ||
+				 slot.name.equals("in7") ||
+				 slot.name.equals("in8") ||
+				 slot.name.equals("in9") ||
+				 slot.name.equals("in10") ||
+				 slot.name.equals("in11") ||
+				 slot.name.equals("in12") ||
+				 slot.name.equals("in13") ||
+				 slot.name.equals("in14") ||
+				 slot.name.equals("in15") ||
+				 slot.name.equals("in16") ||
+				 slot.name.equals("ip") ||
+				 slot.name.equals("key")) && key > 100000) {
+					 Action.boWrite(ip.toStr(), key, in1, in2, in3, in4, in5, in6, in7, in8, in9, in10, in11, 
+									in12,in13, in14, in15,in16);
+
+			} 
+			readingData = false;
+		}
+	}
+
+	virtual override void execute() {
+		super.execute();
+		long now = Sys.ticks();
+		if (!lastRun) {
+			deadline = now + (long)time * 1sec;
+			lastRun = true;
+			if (key > 100000) {
+				if (!connected) {
+					int r = Action.connect(ip.toStr());
+					connected = (r > 0) ? true : false;
+				} else {
+					if (readingData == false) {
+						readingData = true;		
+
+						int rs = Action.boRead(ip.toStr(), key, p);
+						if (rs == 1) {
+							if (p.in1 < 0) {
+								in1 = null; 
+							} else if (p.in1 == 0){
+								in1 = false;
+							} else {
+								in1 = true;
+							}
+
+							if (p.in2 < 0) {
+								in2 = null; 
+							} else if (p.in2 == 0){
+								in2 = false;
+							} else {
+								in2 = true;
+							}
+
+							if (p.in3 < 0) {
+								in3 = null; 
+							} else if (p.in3 == 0){
+								in3 = false;
+							} else {
+								in3 = true;
+							}
+
+							if (p.in4 < 0) {
+								in4 = null; 
+							} else if (p.in4 == 0){
+								in4 = false;
+							} else {
+								in4 = true;
+							}
+
+							if (p.in5 < 0) {
+								in5 = null; 
+							} else if (p.in5 == 0){
+								in5 = false;
+							} else {
+								in5 = true;
+							}
+
+							if (p.in6 < 0) {
+								in6 = null; 
+							} else if (p.in6 == 0){
+								in6 = false;
+							} else {
+								in6 = true;
+							}
+
+							if (p.in7 < 0) {
+								in7 = null; 
+							} else if (p.in7 == 0){
+								in7 = false;
+							} else {
+								in7 = true;
+							}
+
+							if (p.in8 < 0) {
+								in8 = null; 
+							} else if (p.in8 == 0){
+								in8 = false;
+							} else {
+								in8 = true;
+							}
+
+							if (p.in9 < 0) {
+								in9 = null; 
+							} else if (p.in9 == 0){
+								in9 = false;
+							} else {
+								in9 = true;
+							}
+
+							if (p.in10 < 0) {
+								in10 = null; 
+							} else if (p.in10 == 0){
+								in10 = false;
+							} else {
+								in10 = true;
+							}
+
+							if (p.in11 < 0) {
+								in11 = null; 
+							} else if (p.in11 == 0){
+								in11 = false;
+							} else {
+								in11 = true;
+							}
+
+							if (p.in12 < 0) {
+								in12 = null; 
+							} else if (p.in12 == 0){
+								in12 = false;
+							} else {
+								in12 = true;
+							}
+
+							if (p.in13 < 0) {
+								in13 = null; 
+							} else if (p.in13 == 0){
+								in13 = false;
+							} else {
+								in13 = true;
+							}
+
+							if (p.in14 < 0) {
+								in14 = null; 
+							} else if (p.in14 == 0){
+								in14 = false;
+							} else {
+								in14 = true;
+							}
+
+							if (p.in15 < 0) {
+								in15 = null; 
+							} else if (p.in15 == 0){
+								in15 = false;
+							} else {
+								in15 = true;
+							}
+
+							if (p.in16 < 0) {
+								in16 = null; 
+							} else if (p.in16 == 0){
+								in16 = false;
+							} else {
+								in16 = true;
+							}			
+
+							if (in1 == null && in2 == null && in3 == null && in4 == null && 
+								in5 == null && in6 == null && in7 == null && in8 == null &&
+								in9 == null && in10 == null && in11 == null && in12 == null && 
+								in13 == null && in14 == null && in15 == null && in16 == null) {
+								out = def;
+							} else {
+								if (p.presentvalue == 0) {
+									out = false;
+								} else if (p.presentvalue == 1) {
+									out = true;
+								}
+							}										
+						}
+						readingData = false;		
+					}					
+				}
+			}
+		} else {
+			if (now > deadline) {
+				lastRun = false;
+			}		
+		}			
+	}
+	private bool readingData = false;	
+	private bool lastRun  = false
+	private long deadline = 0L
+	private bool connected = false;		
+}

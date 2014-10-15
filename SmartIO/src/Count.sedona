@@ -1,0 +1,55 @@
+@niagaraIcon="module://icons/x16/control/math/add.png"
+class Count extends Component {
+     
+        @config
+	property float in = 0.0;
+
+	@summary
+	@config
+    @allowNull=false
+    @trueText="On" @falseText="Off"		
+	property bool a = false;
+	
+	@summary
+	@config
+    @allowNull=false
+    @trueText="On" @falseText="Off"		
+	property bool b = false;
+
+	@config
+    @allowNull=false
+    @trueText="On" @falseText="Off"		
+	property bool c = false;
+
+
+	@config
+    @allowNull=false
+    @trueText="On" @falseText="Off"		
+	property bool d = false;
+
+
+	@config
+    @allowNull=false
+    @trueText="On" @falseText="Off"		
+	property bool e = false;
+
+	@readonly
+	property float out = 0.0;
+
+private float status1 = 0.0;
+private float status2 = 0.0;
+private float status3 = 0.0;
+private float status4 = 0.0;
+private float status5 = 0.0;
+
+virtual override void execute() {
+	super.execute();
+	if (a == true) status1 = 1.0; else status1 = 0.0;
+	if (b == true) status2 = 1.0; else status2 = 0.0;
+	if (c == true) status3 = 1.0; else status3 = 0.0;
+	if (d == true) status4 = 1.0; else status4 = 0.0;
+	if (e == true) status5 = 1.0; else status5 = 0.0;
+
+	out = in + status1 + status2 + status3 + status4 + status5 ;
+}
+}

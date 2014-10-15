@@ -1,0 +1,53 @@
+@niagaraIcon="module://icons/x16/control/util/switch.png"
+class Pulse extends Component {
+
+	@summary
+	@config
+	@allowNull=false
+    @trueText="On" @falseText="Off"
+	property bool enable =true;
+
+	property float offtime = 1.0;
+	property float ontime = 1.0;
+
+	@readonly 
+	@allowNull=false
+    @trueText="On" @falseText="Off"
+	property bool out = false;
+            
+	private float count = 0.0;
+
+	private long timems = 1sec;
+	private long deadline = 0L;
+	private bool lastRun = false;
+	private long now = 0L;
+
+	virtual override void execute() {
+		if (enable == false) {
+		    out = false;
+		    count = 0.0;
+			lastRun = false;
+			return;
+		}
+		 
+		now = Sys.ticks();
+
+		if (!lastRun) {
+			deadline = now + timems;
+			lastRun = true;
+		} else if (now > deadline) {
+			count += 1.0;
+			lastRun = false;
+		}
+
+		if (out == false && count >= ontime) {
+			out = true;
+			count = 0.0;
+		}
+
+		if (out == true && count >= offtime) {
+			out = false;
+			count = 0.0;
+		}
+	}
+}

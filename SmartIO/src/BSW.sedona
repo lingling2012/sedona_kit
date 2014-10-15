@@ -1,0 +1,42 @@
+//
+// Copyright (c) 2007 Tridium, Inc
+// Licensed under the Academic Free License version 3.0
+//
+// History:
+//   10 Jan 07  Andy Saunders  Creation
+//   27 Apr 07  Brian Frank    Port from Java to Sedona
+//
+
+**
+** BSW: Boolean Switch object
+**
+** out = if (s1) out = in1 else out = in2
+**
+@niagaraIcon="module://icons/x16/control/util/switch.png"
+class BSW
+  extends Component
+{
+
+  @readonly 
+  @allowNull=false
+  @trueText="On" @falseText="Off"
+  property bool out ;
+
+  @allowNull=false
+  @trueText="On" @falseText="Off"
+  property bool in1
+
+  @allowNull=false
+  @trueText="On" @falseText="Off"
+  property bool in2
+
+  @allowNull=false
+  @trueText="On" @falseText="Off"
+  property bool s1
+
+  virtual override void execute()
+  {
+    out = s1 ? in2 : in1
+  }
+
+}

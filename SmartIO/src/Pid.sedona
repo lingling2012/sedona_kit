@@ -1,0 +1,213 @@
+@niagaraIcon="module://icons/x16/control/util/switch.png"
+
+class PID extends Component {
+
+@summary
+property float pv;
+
+@summary
+@config
+property float sp = 22.0;
+
+@summary
+@config
+@allowNull=false
+@trueText="On" @falseText="Off"
+property bool s = true;
+
+@config
+property float dead = 2.0;
+
+@config
+property float level = 0.5;
+
+@config
+property float time = 20.0;
+
+@config
+property float max = 100.0;
+
+@config
+property float min = 0.0;
+
+@summary
+@config
+property bool manual = false;
+
+@readonly
+property float dirout = 0.0;
+
+@readonly
+property float revout = 0.0;
+
+private long timems = 0L;
+private long timems2 = 0L;
+
+private long deadline1 = 0L;
+
+private bool lastRun1 = false;
+
+private long deadline2 = 0L;
+
+private bool lastRun2 = false;
+
+private long deadline3 = 0L;
+
+private bool lastRun3 = false;
+
+private long deadline4 = 0L;
+
+private bool lastRun4 = false;
+
+private long now = 0L;
+
+private float curr1 = 0.0;
+private float curr2 = 0.0;
+private float t1 = 0.0;
+private float t2 = 0.0;
+
+virtual override void execute() {
+	timems = (long)(time + t1) * 1sec;
+	timems2 = (long)(time + t2) * 1sec ;
+
+	if (timems < 1L) {
+		timems = 1sec;
+	}
+
+	if (timems2 < 1L) {
+		timems2 = 1sec;
+	}
+
+
+
+	if (manual) {
+		dirout = curr1;
+		revout = curr2;
+		return;
+	}
+
+	if (s == false) {
+		dirout = min;
+		revout = min;
+	} else {
+		if (dirout > max) {
+			dirout = max;
+		} else if (dirout < min) {
+			dirout = min;
+		} else {
+//正向关闭程序
+			if (pv < (sp - dead*0.5)) {
+//当PV小于SP-死区10%时
+				lastRun2 = false;
+				if (dirout > min) {
+					now = Sys.ticks();
+					if (!lastRun1) {
+						deadline1 = now + timems;
+						lastRun1 = true;
+					} else if (now > deadline1) {
+						dirout -= level;
+						lastRun1 = false;
+					} 
+				}
+			} 
+//正向开大程序
+			else if (pv > (sp + dead * 0.5)) {
+			//else if (pv > sp) {
+				lastRun1 = false;
+				if (dirout < max) {
+					now = Sys.ticks();
+					if (!lastRun2) {
+						deadline2 = now + timems;
+						lastRun2 = true;
+					} else if (now > deadline2) {
+						dirout += level;
+						lastRun2 = false;
+					} 				
+				}
+			}
+
+			if (pv - sp >0.0 && pv - sp <  dead *0.8) {
+//PV大于SP时,且小于死区一半时。应该最慢动作。
+				t1 = time * 20.0;
+//当pv-sp在死区0.5到死区之间,则应慢动作
+                        } else if (pv - sp <= dead && pv - sp >= dead*0.5) {
+                                t1 = time *5.0;
+//当pv-sp在死区到2位死区之间,则应不修正
+			} else if (pv - sp > dead && pv - sp < dead*2.0) {
+				t1 = 0.0;
+//当pv-sp天于2死区,则应加快动作
+			} else if (pv - sp > dead*2.0) {
+
+				t1 = time * (-0.7);
+			} 
+//当PV<sp时，应快速关闭。
+                         else if (sp - pv <=  dead && sp - pv > 0.0) {
+				t1 =  time * (-0.5);
+//当PV<sp一倍dead时，应立即关闭
+			} else if (sp - pv > dead ) {
+				t1 =  time * (-0.8);
+			}
+		}
+//反向程序
+		if (revout > max) {
+			revout = max;
+		} else if (revout < min) {
+			revout = min;
+		} else {
+//当PV<SP- dead *0.1  时,运行
+//反向开大程序			
+			if ( pv < (sp - dead * 0.5)) {
+				lastRun4 = false;
+				if (revout < max) {
+					now = Sys.ticks();
+					if (!lastRun3) {
+						deadline3 = now + timems2;
+						lastRun3 = true;
+					} else if (now > deadline3) {
+						revout += level;
+						lastRun3 = false;
+					} 
+				}
+			} else if (pv > (sp + dead*0.5)) {
+//反向关程序
+				lastRun3 = false;
+				if (revout > min) {
+					now = Sys.ticks();
+					if (!lastRun4) {
+						deadline4 = now + timems2;
+						lastRun4 = true;
+					} else if (now > deadline4) {
+						revout -= level;
+						lastRun4 = false;
+					} 				
+				}
+			}
+//反向关小,动作慢
+			if (pv - sp < dead * 0.5 &&  pv - sp > 0.0) {
+				t2 = 0.0;
+			} else if (pv - sp >= dead*0.5) {
+//反向关小,立即关闭
+				t2 =  time * (-0.8);
+//反向开大,最慢
+			} else if (sp - pv < dead * 0.5 && sp - pv > 0.0) {
+				t2 = time * 50.0;
+//反向开大,慢
+			} else if (sp - pv >= dead * 0.5 && sp - pv < dead) {
+
+				t2 = time * 5.0;
+//反向开大,不修正
+			} else if (sp - pv > dead && sp - pv < dead*2.0) {
+
+                                t2 = 0.0;
+//反向开大,快速
+			} else if (sp - pv >= dead*2.0) {
+				t2 =  time * (-0.7);
+			}
+		} 
+	}
+
+	curr1 = dirout;
+	curr2 = revout;
+}
+
+}

@@ -1,0 +1,71 @@
+@niagaraIcon="module://icons/x16/control/util/switch.png"
+class Totalizer extends Component {
+
+	@summary
+	@config
+	property float in = 0.0;
+
+	@summary
+	@config
+	property bool enable = false;
+
+	@config
+	property float set = 60.0;
+
+	@config
+	property float reset = 36000000.0;
+
+	@config
+	property bool clear = false;
+
+	@summary
+	property float out;
+
+	private float count = 0.0;
+	private	float total;
+
+	private long timems = 1sec;
+	private long deadline = 0L;
+	private bool lastRun = false;
+	private long now = 0L;
+
+	virtual override void start() {
+		total = in;
+	}
+
+	virtual override void execute() {
+		if (enable == false) {
+			lastRun = false;
+			return;
+		}
+		 
+		now = Sys.ticks();
+
+		if (!lastRun) {
+			deadline = now + timems;
+			lastRun = true;
+		} else if (now > deadline) {
+			count += 1.0;
+			lastRun = false;
+		}
+
+		if (count >= set) {
+			total += 1.0;
+			count = 0.0;
+		}
+
+		if (total >= reset) {
+			count = 0.0;
+			lastRun = false;
+			total = 0.0;
+		}
+
+        if (clear == true) {  
+			total = 0.0;
+		}
+
+		if (total > in) {
+			out = total;
+		}
+	}
+}

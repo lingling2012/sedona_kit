@@ -1,0 +1,51 @@
+@niagaraIcon="module://icons/x16/control/logic/greaterThan.png"
+class compare 
+extends Component {
+
+** input property, persisted as config property.
+@summary
+@config
+property float in1;
+
+@summary
+@config
+property float in2;
+** output property, runtime property.
+    @readonly
+    @allowNull=false
+    @trueText="On" @falseText="Off"		
+    property bool greater;
+
+    @readonly
+    @allowNull=false
+    @trueText="On" @falseText="Off"		
+    property bool equal;
+
+    @readonly
+    @allowNull=false
+    @trueText="On" @falseText="Off"		
+    property bool less;
+
+** action to set in1 to a value
+** 
+action void setIn1(float x) {
+in1 = x;
+}
+
+**
+** action to set in2 to a value
+** 
+action void setIn2(float x) {
+in2 = x;
+}
+
+**
+** Execute is called once every scan.
+**
+virtual override void execute() {
+	greater = in1 > in2;
+	equal = in1 == in2
+	less = in1 < in2
+}
+
+}

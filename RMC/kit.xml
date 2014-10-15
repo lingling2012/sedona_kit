@@ -1,0 +1,34 @@
+<sedonaKit
+ name = "RMC"
+ vendor = "RMC"
+ description = "sedona redis client"
+ includeSource = "false"
+ doc = "false"
+ vesion = "1.0.48"
+>
+  <depend on="sys 1.0"/>
+  <source dir="."/>
+  
+  <native qname="RMC::Action.connect" id="113::0" />
+
+  <native qname="RMC::Action.aiRead" id="113::1"/>
+
+  <native qname="RMC::Action.aoRead" id="113::9"/>    
+  <native qname="RMC::Action.aoWrite" id="113::2"/>
+
+  <native qname="RMC::Action.biRead" id="113::3"/>
+
+  <native qname="RMC::Action.boRead" id="113::10"/>  
+  <native qname="RMC::Action.boWrite" id="113::4"/>  
+
+  <native qname="RMC::Action.avRead" id="113::5"/>  
+  <native qname="RMC::Action.avWrite" id="113::6"/>  
+  <native qname="RMC::Action.avWritePresentValue" id="113::14"/>  
+  
+  <native qname="RMC::Action.bvRead" id="113::7"/>  
+  <native qname="RMC::Action.bvWrite" id="113::8"/>
+  <native qname="RMC::Action.bvWritePresentValue" id="113::15"/>
+
+  <native qname="RMC::Action.aiWrite" id="113::13"/>  
+</sedonaKit>
+
